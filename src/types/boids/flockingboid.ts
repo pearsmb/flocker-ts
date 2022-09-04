@@ -20,6 +20,13 @@ export class FlockingBoid extends Boid {
 
     calculateCohesionAngle(averagePosition: Position, averageAngle: number){
 
+        let x = averagePosition.X - this.Position.X;
+        let y = averagePosition.Y - this.Position.Y;
+
+        let angle = 90 - ( (this.Angle * 180 * Math.PI) + (Math.atan2(y,x) * 180 * Math.PI));
+
+        return -this.sortAngle(angle);
+
     }
 
     calculateAlignmentAngle(averagePosition: Position, averageAngle: number){
@@ -30,9 +37,11 @@ export class FlockingBoid extends Boid {
 
     }
 
-    setFlockingAttributes(boids: IBoid[]){
-
+    public setFlockingAttributes(boids: IBoid[]){
+        
         let boidsWithinRange : IBoid[] = [];
+
+        console.log(boids.length);
 
         let x : number;
         let y : number;
@@ -56,7 +65,10 @@ export class FlockingBoid extends Boid {
 
         this.calculateSeparationAngle(averagePosition, averageAngle);
         this.calculateAlignmentAngle(averagePosition, averageAngle);
-        this.calculateCohesionAngle(averagePosition, averageAngle);
+        let cohesion = this.calculateCohesionAngle(averagePosition, averageAngle);
+        //console.log(cohesion);
+        this.turn(cohesion * 10);
+
 
     }
 

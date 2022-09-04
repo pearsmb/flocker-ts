@@ -2,6 +2,7 @@ import { Boid } from "./types/boids/boid";
 import { Position } from "./types/position";
 import { IBoid } from "./types/gameobjects"
 import { PredatorBoid } from "./types/boids/predatorboid";
+import { FlockingBoid } from "./types/boids/flockingboid";
 
 
 
@@ -69,7 +70,7 @@ function initialiseBoids() : IBoid[] {
         let randomPosition : Position;
         randomPosition = new Position(RandNumberBetween(100,900), RandNumberBetween(100,500));
 
-        boids.push(new Boid(context, randomPosition, RandNumberBetween(-179, 179), RandNumberBetween(1.2,1.5)));
+        boids.push(new FlockingBoid(context, randomPosition, RandNumberBetween(-179, 179), RandNumberBetween(1.2,1.5)));
     }
 
     // The random starting position for the boid.
@@ -121,6 +122,12 @@ function renderFrame(){
         if(boid instanceof PredatorBoid){
 
         }
+
+        if(boid instanceof FlockingBoid)
+        {
+            //boid.setFlockingAttributes(boids);
+        }
+
 
         boid.draw();
         boid.wrapPosition(canvas.width, canvas.height);

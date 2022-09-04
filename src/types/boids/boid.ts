@@ -5,7 +5,7 @@ import { Position } from "../position";
 export class Boid implements IBoid{
 
     Position: Position;
-    Angle: number;
+    public Angle: number;
     Context: CanvasRenderingContext2D;
     Size: number = 20;
     Speed: number;
@@ -73,7 +73,7 @@ export class Boid implements IBoid{
 
     }
 
-    private sortAngle(angle: number){
+    sortAngle(angle: number){
         while(angle > 180){
 			angle = angle - 360;
 		}
@@ -85,10 +85,8 @@ export class Boid implements IBoid{
     }
 
     public turn(angle: number){
-        //this.Angle = this.sortAngle(this.Angle + angle);
 
         this.Angle += angle;
-
         this.Angle = this.sortAngle(this.Angle);
 
     }
