@@ -1,6 +1,6 @@
 
-import type { IBoid } from "./gameobjects"
-import { Position } from "./position";
+import type { IBoid } from "../gameobjects"
+import { Position } from "../position";
 
 export class Boid implements IBoid{
 
@@ -9,7 +9,8 @@ export class Boid implements IBoid{
     Context: CanvasRenderingContext2D;
     Size: number = 20;
     Speed: number;
-
+    StrokeColour: string = "lime";
+    FillColour: string = "black";
 
     /**
      * Creates an instance of a boid.
@@ -58,13 +59,16 @@ export class Boid implements IBoid{
 
     public move(distance: number) : void {
 
+        // Calculates the next coordinates.
         let x = distance * Math.sin(this.Angle * Math.PI/180) + this.Position.X; 
         let y = distance * Math.cos(this.Angle * Math.PI/180) + this.Position.Y; 
 
         this.Position.X = x;
         this.Position.Y = y;
+
         this.Context.lineWidth = 4;
-        this.Context.strokeStyle = "gray"
+        this.Context.strokeStyle = this.StrokeColour;
+        this.Context.fillStyle = this.FillColour;
         this.Context.lineTo(x, y);
 
     }

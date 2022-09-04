@@ -1,10 +1,13 @@
 import { Boid } from "./boid";
-import { Position } from "./position";
+import { Position } from "../position";
 
 
 export class PredatorBoid extends Boid{
 
     Size: number = 50;
+    StrokeColour: string = "deeppink";
+    FillColour: string = "black";
+
 
     /**
      * Creates an instance of a boid.
@@ -17,7 +20,7 @@ export class PredatorBoid extends Boid{
         super(context, position, angle, speed);
     }
 
-    
+
 
 
 

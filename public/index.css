@@ -1,18 +1,87 @@
 
+/* importing matrix font */
+@import url('http://fonts.cdnfonts.com/css/matrix');
 
 
 html, body { height: 100%; margin: 0; 
     background-color: rgb(46, 46, 46);
+    display: flex;
+    flex-direction: column;
 
 }
 
 
 canvas{
-    margin: 30px;
-    background-color: darkgray;
-    border: 3px solid white;
+    background-color: black;
+    border: 3px solid lime;
     border-radius: 8px;
 }
+
+.container{
+
+    max-width: 1000px;
+    min-width: 400px;
+
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.sliders{
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.slider {
+    margin: 6px;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #000;
+    outline: none;
+    border: 3px solid lawngreen;
+    border-radius: 8px;
+  }
+
+  .slider-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .slider-title{
+    font-family: 'Matrix', sans-serif;
+    color: lawngreen;
+  }
+  
+  
+  /* for chrome/safari */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 20px;
+    background: #000;
+    cursor: pointer;
+    border: 3px solid lawngreen;
+    border-radius: 4px;
+  }
+  
+  /* for firefox */
+  .slider::-moz-range-thumb {
+    width: 10px;
+    height: 20px;
+    background: #000;
+    cursor: pointer;
+    border: 3px solid lawngreen;
+    border-radius: 4px;
+  }
 
 
 

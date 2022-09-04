@@ -1,20 +1,20 @@
-import { Boid } from "./types/boid";
+import { Boid } from "./types/boids/boid";
 import { Position } from "./types/position";
-import type { IBoid } from "./types/gameobjects"
-import { PredatorBoid } from "./types/predatorboid";
+import { IBoid } from "./types/gameobjects"
+import { PredatorBoid } from "./types/boids/predatorboid";
 
 
 
 window.onload = init;
 
-const MAX_WIDTH = 1000;
-const MAX_HEIGHT = 600;
+let canvasWidth = 1000;
+let canvasHeight = 600;
 
 
 const canvas = createGameCanvas();
 const context = canvas.getContext('2d')!;
 
-const boids: IBoid[] = initialiseBoids();
+let boids: IBoid[] = initialiseBoids();
 
 
 /**
@@ -24,8 +24,12 @@ const boids: IBoid[] = initialiseBoids();
 function init(): void{
 
     // Add the canvas element to the document.
-    document.body.appendChild(canvas);
+    //document.body.appendChild(canvas);
 
+    document.getElementById("container")?.appendChild(canvas);
+
+
+   
     /**
      * Do nothing if the context could not be initialised.
      */
@@ -38,6 +42,10 @@ function init(): void{
      */
     window.requestAnimationFrame(gameLoop);
 }
+
+
+
+
 
 
 /**
@@ -128,8 +136,8 @@ function renderFrame(){
  */
 function createGameCanvas() : HTMLCanvasElement {
     let canvas = document.createElement("canvas");
-    canvas.height = MAX_HEIGHT;
-    canvas.width = MAX_WIDTH;
+    canvas.height = canvasHeight;
+    canvas.width = canvasWidth;
     return canvas;
 
 }
