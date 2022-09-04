@@ -8,20 +8,25 @@ window.onload = init;
 const canvas = createGameCanvas();
 const context = canvas.getContext('2d')!;
 
+const increaseAngleBtn = CreateAngleButton();
 
 
-let boid : Boid = new Boid(context, new Position(200,150),100);
+
+
+let boid : Boid = new Boid(context, new Position(200,150));
 
 
 function init(){
 
     document.body.appendChild(canvas);
+    document.body.appendChild(increaseAngleBtn);
+
     
     if(context == null){
         return;
     }
-
-
+    
+    boid.draw();
 
     window.requestAnimationFrame(gameLoop);
 }
@@ -40,10 +45,11 @@ function renderFrame(){
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-
-    let randomColor = Math.random() > 0.5? '#ff8080' : '#0099b0';
+    
 
     boid.draw();
+
+    
 
 
     boid.wrapPosition(canvas.width, canvas.height);
@@ -65,4 +71,19 @@ function createGameCanvas() : HTMLCanvasElement {
     return canvas;
 
 }
+
+
+function CreateAngleButton(){
+
+    let btn = document.createElement("button");    
+    btn.innerHTML = "Click Me";    
+    btn.onclick = function (){
+        boid.turn(5);
+
+    };
+
+    return btn;
+
+}
+
 
