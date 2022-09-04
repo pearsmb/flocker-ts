@@ -1,35 +1,54 @@
+import { Boid } from "./types/boids";
+import { Position } from "./types/position";
 
 
 window.onload = init;
 
+
 const canvas = createGameCanvas();
-const context = canvas.getContext('2d');
+const context = canvas.getContext('2d')!;
+
+
+
+let boid : Boid = new Boid(context, new Position(200,150),100);
 
 
 function init(){
 
     document.body.appendChild(canvas);
     
+    if(context == null){
+        return;
+    }
+
+
+
     window.requestAnimationFrame(gameLoop);
 }
 
 
 function gameLoop(timeStamp : number){
-    draw();
+    renderFrame();
 
     // Keep requesting new frames
     window.requestAnimationFrame(gameLoop);
 }
 
-function draw(){
+
+
+function renderFrame(){
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+
     let randomColor = Math.random() > 0.5? '#ff8080' : '#0099b0';
 
-    if(context == null){
-        return;
-    }
+    boid.draw();
 
-    context.fillStyle = randomColor;
-    context.fillRect(100, 50, 200, 175);
+
+    boid.wrapPosition(canvas.width, canvas.height);
+    
+    
 }
 
 
