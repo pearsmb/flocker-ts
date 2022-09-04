@@ -4,15 +4,21 @@ import { Position } from "./position";
 
 export class Boid implements IBoid{
 
-    private Position: Position;
-    private Angle: number;
-    private Context: CanvasRenderingContext2D;
-    private Size: number = 20;
-    private Speed: number;
+    Position: Position;
+    Angle: number;
+    Context: CanvasRenderingContext2D;
+    Size: number = 20;
+    Speed: number;
 
 
+    /**
+     * Creates an instance of a boid.
+     * @param context The canvas context to draw to.
+     * @param position - The Position as a cartesian coordinate.
+     * @param angle - The starting angle of the boid.
+     * @param speed - The movement speed of the boid.
+     */
     constructor(context: CanvasRenderingContext2D, position: Position, angle: number, speed: number) {
-        
         this.Position = position;
         this.Context = context;
         this.Angle = angle;

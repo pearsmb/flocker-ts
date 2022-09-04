@@ -1,6 +1,7 @@
-import { Boid } from "./types/boids";
+import { Boid } from "./types/boid";
 import { Position } from "./types/position";
-
+import type { IBoid } from "./types/gameobjects"
+import { PredatorBoid } from "./types/predatorboid";
 
 
 
@@ -13,14 +14,14 @@ const MAX_HEIGHT = 600;
 const canvas = createGameCanvas();
 const context = canvas.getContext('2d')!;
 
-const boids: Boid[] = initialiseBoids();
+const boids: IBoid[] = initialiseBoids();
 
 
 /**
  * Startup method.
  * @returns nothing
  */
-function init(){
+function init(): void{
 
     // Add the canvas element to the document.
     document.body.appendChild(canvas);
@@ -43,7 +44,7 @@ function init(){
  * Creates a list of boids of a random length.
  * @returns A List of boids.
  */
-function initialiseBoids() : Boid[] {
+function initialiseBoids() : IBoid[] {
 
     // The max and minimum range of boids to be created.
     let max = 50;
@@ -60,9 +61,18 @@ function initialiseBoids() : Boid[] {
         let randomPosition : Position;
         randomPosition = new Position(RandNumberBetween(100,900), RandNumberBetween(100,500));
 
-        boids.push(new Boid(context, randomPosition, RandNumberBetween(-179, 179), RandNumberBetween(1,1.5)));
-
+        boids.push(new Boid(context, randomPosition, RandNumberBetween(-179, 179), RandNumberBetween(1.2,1.5)));
     }
+
+    // The random starting position for the boid.
+    let randomPosition : Position;
+    randomPosition = new Position(RandNumberBetween(100,900), RandNumberBetween(100,500));
+    boids.push(new PredatorBoid(context, randomPosition, RandNumberBetween(-179, 179), 0.5));
+
+    randomPosition = new Position(RandNumberBetween(100,900), RandNumberBetween(100,500));
+    boids.push(new PredatorBoid(context, randomPosition, RandNumberBetween(-179, 179), 1));
+
+
     return boids;
 }
 
@@ -99,6 +109,11 @@ function renderFrame(){
     boids.forEach(boid => {
 
         boid.turn(RandNumberBetween(-1, 1));
+
+        if(boid instanceof PredatorBoid){
+
+        }
+
         boid.draw();
         boid.wrapPosition(canvas.width, canvas.height);
     });
