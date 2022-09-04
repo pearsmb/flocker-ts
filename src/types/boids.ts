@@ -5,13 +5,18 @@ import { Position } from "./position";
 export class Boid implements IBoid{
 
     private Position: Position;
-    private Angle: number = 0;
+    private Angle: number;
     private Context: CanvasRenderingContext2D;
+    private Size: number = 20;
+    private Speed: number;
 
-    constructor(context: CanvasRenderingContext2D, position: Position) {
+
+    constructor(context: CanvasRenderingContext2D, position: Position, angle: number, speed: number) {
         
         this.Position = position;
         this.Context = context;
+        this.Angle = angle;
+        this.Speed = speed;
     }
 
     public wrapPosition(xLimit: number, yLimit: number){
@@ -26,65 +31,39 @@ export class Boid implements IBoid{
 
     }
 
-    public draw() : void {
+    public draw(){
 
-        // let img = new Image();
-        // img.src = "sprites/boid.jpg";
-        
-        // var ctx = this.Context;
-
-        // img.onload = function (){
-        //     ctx.drawImage(img,40,40, 40,40);
-        // }
-        
-
-        // pixel size of the boids.
-        let length = 20;
-
-        this.move(1)
-
-        
-        
+        this.move(this.Speed);
 
         this.Context.beginPath();
-
-        this.Context.arc(this.Position.X, this.Position.Y, 18, 0, 2 * Math.PI);        
-        this.Context.stroke();
-
-
-
-        this.Context.beginPath();
-
         this.Context.moveTo(this.Position.X, this.Position.Y);
-
         this.turn(90);
-		this.move(10);
+		this.move(this.Size/2);
 		this.turn(-120);
-		this.move(20);
+		this.move(this.Size);
 		this.turn(-120);
-		this.move(20);
+		this.move(this.Size);
 		this.turn(-120);
-		this.move(10);
+		this.move(this.Size/2);
         this.turn(-90);
         this.Context.stroke();
-
-
+        this.Context.fill();
     }
 
-
-    move(distance: number) : void {
+    public move(distance: number) : void {
 
         let x = distance * Math.sin(this.Angle * Math.PI/180) + this.Position.X; 
         let y = distance * Math.cos(this.Angle * Math.PI/180) + this.Position.Y; 
 
         this.Position.X = x;
         this.Position.Y = y;
-
+        this.Context.lineWidth = 4;
+        this.Context.strokeStyle = "gray"
         this.Context.lineTo(x, y);
 
     }
 
-    sortAngle(angle: number){
+    private sortAngle(angle: number){
         while(angle > 180){
 			angle = angle - 360;
 		}
@@ -95,7 +74,7 @@ export class Boid implements IBoid{
 		return angle;
     }
 
-    turn(angle: number){
+    public turn(angle: number){
         //this.Angle = this.sortAngle(this.Angle + angle);
 
         this.Angle += angle;

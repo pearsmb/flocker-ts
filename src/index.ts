@@ -8,29 +8,49 @@ window.onload = init;
 const canvas = createGameCanvas();
 const context = canvas.getContext('2d')!;
 
-const increaseAngleBtn = CreateAngleButton();
-
-
-
-
-let boid : Boid = new Boid(context, new Position(200,150));
+const boids: Boid[] = initialiseBoids();
 
 
 function init(){
 
     document.body.appendChild(canvas);
-    document.body.appendChild(increaseAngleBtn);
 
     
     if(context == null){
         return;
     }
-    
-    boid.draw();
 
+ 
     window.requestAnimationFrame(gameLoop);
 }
 
+
+function initialiseBoids() : Boid[] {
+
+    let max = 50;
+    let min = 10;
+
+    let boids : Boid[] = [];
+
+    let randomNum = Math.floor(Math.random() * (max - min + 1) + min);
+
+    for(let i = 0; i < randomNum; i++){
+
+        let randomPosition : Position;
+        randomPosition = new Position(RandNumberBetween(100,900), RandNumberBetween(100,500));
+
+        boids.push(new Boid(context, randomPosition, RandNumberBetween(-179, 179), RandNumberBetween(1,1.5)));
+
+    }
+
+
+    return boids;
+
+}
+
+function RandNumberBetween(min: number, max: number){
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 function gameLoop(timeStamp : number){
     renderFrame();
@@ -47,12 +67,15 @@ function renderFrame(){
 
     
 
-    boid.draw();
+    boids.forEach(boid => {
 
-    
+        boid.turn(RandNumberBetween(-1, 1));
+        boid.draw();
+        boid.wrapPosition(canvas.width, canvas.height);
+
+    });
 
 
-    boid.wrapPosition(canvas.width, canvas.height);
     
     
 }
@@ -64,26 +87,15 @@ function renderFrame(){
 function createGameCanvas() : HTMLCanvasElement {
 
     let canvas = document.createElement("canvas");
-
-    canvas.width = 400;
-    canvas.height = 300;
+    
+    canvas.width = 1000;
+    canvas.height = 600;
 
     return canvas;
 
 }
 
 
-function CreateAngleButton(){
 
-    let btn = document.createElement("button");    
-    btn.innerHTML = "Click Me";    
-    btn.onclick = function (){
-        boid.turn(5);
-
-    };
-
-    return btn;
-
-}
 
 
