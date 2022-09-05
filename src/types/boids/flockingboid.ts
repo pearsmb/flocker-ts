@@ -9,7 +9,7 @@ export class FlockingBoid extends Boid {
     Cohesion: number = 0;
     Alignment: number = 0;
     Separation: number = 0;
-    Range: number = 100;
+    Range: number = 20;
 
     /**
      *
@@ -25,18 +25,23 @@ export class FlockingBoid extends Boid {
 
         let angle = 90 - ( this.Angle + (Math.atan2(y,x) * (180 / Math.PI)));
 
-        //console.log(`angle: ${angle}, sortedAngle: ${this.sortAngle(angle)}`);
-        console.log(angle);
         return angle;
-        //return this.sortAngle(angle);
-
     }
 
-    calculateAlignmentAngle(averagePosition: Position, averageAngle: number){
+    calculateAlignmentAngle(averageAngle: number){
 
+        return averageAngle - this.Angle;
+        
     }
 
     calculateSeparationAngle(averagePosition: Position, averageAngle: number){
+
+        let x = averagePosition.X - this.Position.X;
+        let y = averagePosition.Y - this.Position.Y;
+
+        let angle = 90 - ( this.Angle + (Math.atan2(y,x) * (180 / Math.PI)));
+
+        return -angle;
 
     }
 
@@ -71,13 +76,14 @@ export class FlockingBoid extends Boid {
         let averageAngle = this.calculateAverageAngle(boidsWithinRange)!;
         let averagePosition = this.calculateAveragePosition(boidsWithinRange)!;
 
-        this.calculateSeparationAngle(averagePosition, averageAngle);
-        this.calculateAlignmentAngle(averagePosition, averageAngle);
-
-
         let cohesion = this.calculateCohesionAngle(averagePosition, averageAngle);
+        let separation = this.calculateSeparationAngle(averagePosition, averageAngle);
+        let alignment = this.calculateAlignmentAngle(averageAngle);
 
-        this.turn(cohesion/100);
+        this.turn(separation / 100);
+        this.turn(cohesion/ 100);
+        this.turn(alignment / 100);
+
 
     }
 

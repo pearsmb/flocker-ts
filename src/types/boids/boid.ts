@@ -40,6 +40,13 @@ export class Boid implements IBoid{
 
     public draw(){
 
+        this.Context.beginPath();
+
+        this.Context.arc(this.Position.X, this.Position.Y, 30, 0, 2 * Math.PI);        
+        this.Context.strokeStyle = "red"
+        this.Context.lineWidth = 1;
+        this.Context.stroke();
+
         this.move(this.Speed);
 
         this.Context.beginPath();
