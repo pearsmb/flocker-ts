@@ -9,7 +9,7 @@ export class FlockingBoid extends Boid {
     Cohesion: number = 0;
     Alignment: number = 0;
     Separation: number = 0;
-    Range: number = 0;
+    Range: number = 100;
 
     /**
      *
@@ -23,9 +23,12 @@ export class FlockingBoid extends Boid {
         let x = averagePosition.X - this.Position.X;
         let y = averagePosition.Y - this.Position.Y;
 
-        let angle = 90 - ( (this.Angle * 180 * Math.PI) + (Math.atan2(y,x) * 180 * Math.PI));
+        let angle = 90 - ( this.Angle + (Math.atan2(y,x) * (180 / Math.PI)));
 
-        return -this.sortAngle(angle);
+        //console.log(`angle: ${angle}, sortedAngle: ${this.sortAngle(angle)}`);
+        console.log(angle);
+        return angle;
+        //return this.sortAngle(angle);
 
     }
 
@@ -41,12 +44,11 @@ export class FlockingBoid extends Boid {
         
         let boidsWithinRange : IBoid[] = [];
 
-        console.log(boids.length);
-
         let x : number;
         let y : number;
 
         boids.forEach(boid => {
+
 
             if(boid != this){
 
@@ -60,20 +62,27 @@ export class FlockingBoid extends Boid {
             }
         });
 
-        let averageAngle = this.calculateAverageAngle(boidsWithinRange);
-        let averagePosition = this.calculateAveragePosition(boidsWithinRange);
+        // do nothing if nothing to flock
+        if(boidsWithinRange.length == 0){
+            return;
+        }
+
+
+        let averageAngle = this.calculateAverageAngle(boidsWithinRange)!;
+        let averagePosition = this.calculateAveragePosition(boidsWithinRange)!;
 
         this.calculateSeparationAngle(averagePosition, averageAngle);
         this.calculateAlignmentAngle(averagePosition, averageAngle);
-        let cohesion = this.calculateCohesionAngle(averagePosition, averageAngle);
-        //console.log(cohesion);
-        this.turn(cohesion * 10);
 
+
+        let cohesion = this.calculateCohesionAngle(averagePosition, averageAngle);
+
+        this.turn(cohesion/100);
 
     }
 
 
-    calculateAverageAngle(boids : IBoid[]) : number {
+    calculateAverageAngle(boids : IBoid[]) : number | null {
 
         let averageAngle = 0;
 
@@ -85,7 +94,7 @@ export class FlockingBoid extends Boid {
     }
 
 
-    calculateAveragePosition(boids: IBoid[]) : Position {
+    calculateAveragePosition(boids: IBoid[]) : Position | null {
 
         let averageX = 0;
         let averageY = 0;

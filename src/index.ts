@@ -125,15 +125,12 @@ function renderFrame(){
 
         if(boid instanceof FlockingBoid)
         {
-            //boid.setFlockingAttributes(boids);
+            boid.setFlockingAttributes(boids);
         }
-
 
         boid.draw();
         boid.wrapPosition(canvas.width, canvas.height);
-    });
-
-    
+    });    
 }
 
 

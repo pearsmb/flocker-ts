@@ -75,10 +75,10 @@ export class Boid implements IBoid{
 
     sortAngle(angle: number){
         while(angle > 180){
-			angle = angle - 360;
+			angle = angle - 358;
 		}
 		// and vice versa
-		while(angle < -179){
+		while(angle < -180){
 			angle = angle + 360;
 		}
 		return angle;
